@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'">
+  <title>Clock</title>
+  <link rel="stylesheet" href="../common.css">
+  <style>
+    .card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 14px 20px;
+    }
+
+    .time {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      font-family: 'Segoe UI Variable Display', 'Segoe UI', system-ui, sans-serif;
+      font-size: 56px;
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .seconds,
+    .ampm {
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .date {
+      margin-top: 10px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .date strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="time"><span id="hm">--:--</span><span class="seconds" id="sec"></span><span class="ampm" id="ampm"></span></div>
+    <div class="date"><strong id="weekday"></strong> <span id="date"></span></div>
+  </div>
+  <script src="../common.js"></script>
+  <script src="clock.js"></script>
+</body>
+</html>

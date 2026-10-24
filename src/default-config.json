@@ -1,0 +1,39 @@
+{
+  "alwaysOnTop": false,
+  "locked": false,
+  "theme": {
+    "accent": "#1db954",
+    "background": "rgba(18, 18, 24, 0.78)",
+    "text": "#f5f5f7",
+    "radius": 16
+  },
+  "widgets": {
+    "spotify": {
+      "enabled": true,
+      "source": "Spotify",
+      "dynamicColor": true
+    },
+    "discord": {
+      "enabled": true,
+      "serverId": "",
+      "refreshSeconds": 60,
+      "maxMembers": 8
+    },
+    "clock": {
+      "enabled": true,
+      "hour12": false,
+      "showSeconds": true
+    },
+    "system": {
+      "enabled": true
+    },
+    "weather": {
+      "enabled": true,
+      "city": "London",
+      "latitude": null,
+      "longitude": null,
+      "units": "celsius",
+      "refreshMinutes": 15
+    }
+  }
+}

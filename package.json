@@ -1,0 +1,35 @@
+{
+  "name": "windows-widgets",
+  "productName": "Desktop Widgets",
+  "version": "1.0.0",
+  "description": "Desktop widgets for Windows: Spotify, Discord, clock, system stats and weather.",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win portable nsis"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^44.0.0",
+    "electron-builder": "^26.17.0"
+  },
+  "build": {
+    "appId": "com.windowswidgets.app",
+    "productName": "Desktop Widgets",
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "src/media/*.ps1"
+    ],
+    "win": {
+      "icon": "assets/icon.png",
+      "target": [
+        "portable",
+        "nsis"
+      ]
+    }
+  }
+}

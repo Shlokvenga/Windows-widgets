@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://cdn.discordapp.com; style-src 'self' 'unsafe-inline'">
+  <title>Discord</title>
+  <link rel="stylesheet" href="../common.css">
+  <link rel="stylesheet" href="discord.css">
+</head>
+<body>
+  <div class="card">
+    <header class="head">
+      <div class="logo">
+        <svg viewBox="0 0 24 24"><path d="M19.27 5.33A17.6 17.6 0 0 0 14.94 4l-.2.4a16.2 16.2 0 0 1 4.03 1.27 15.3 15.3 0 0 0-13.54 0A16 16 0 0 1 9.27 4.4L9.06 4a17.6 17.6 0 0 0-4.33 1.33C2 9.4 1.25 13.37 1.62 17.29A17.7 17.7 0 0 0 7 20l1.13-1.55a11.4 11.4 0 0 1-1.79-.86l.43-.33a12.6 12.6 0 0 0 10.46 0l.43.33c-.57.34-1.17.63-1.8.86L17 20a17.6 17.6 0 0 0 5.38-2.71c.44-4.55-.75-8.48-3.11-11.96ZM8.68 14.88c-1.03 0-1.88-.95-1.88-2.11s.83-2.12 1.88-2.12 1.9.96 1.88 2.12c0 1.16-.83 2.11-1.88 2.11Zm6.64 0c-1.03 0-1.88-.95-1.88-2.11s.83-2.12 1.88-2.12 1.9.96 1.88 2.12c0 1.16-.83 2.11-1.88 2.11Z"/></svg>
+      </div>
+      <div class="head-text">
+        <div class="server ellipsis" id="server">Discord</div>
+        <div class="online muted"><span class="dot online-dot"></span><span id="online">—</span></div>
+      </div>
+      <button class="icon-btn" id="refresh" title="Refresh">
+        <svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35Z"/></svg>
+      </button>
+    </header>
+
+    <div class="body" id="body">
+      <div class="message muted" id="message">Loading…</div>
+      <section id="voice-section" class="hidden">
+        <div class="label">In voice</div>
+        <div id="voice"></div>
+      </section>
+      <section id="members-section" class="hidden">
+        <div class="label">Online</div>
+        <ul class="members" id="members"></ul>
+      </section>
+    </div>
+
+    <footer class="foot">
+      <button class="pill-btn" id="open">Open Discord</button>
+      <button class="pill-btn hidden" id="join">Join server</button>
+    </footer>
+  </div>
+  <script src="../common.js"></script>
+  <script src="discord.js"></script>
+</body>
+</html>

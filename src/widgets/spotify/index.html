@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'">
+  <title>Spotify</title>
+  <link rel="stylesheet" href="../common.css">
+  <link rel="stylesheet" href="spotify.css">
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="player" id="player">
+      <div class="art-wrap">
+        <img class="art hidden" id="art" alt="">
+        <div class="art-placeholder" id="art-placeholder">
+          <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.6 14.4a.62.62 0 0 1-.86.2c-2.35-1.43-5.3-1.76-8.79-.96a.63.63 0 1 1-.28-1.22c3.81-.87 7.08-.5 9.72 1.12.3.18.39.57.2.86Zm1.22-2.72a.78.78 0 0 1-1.07.26c-2.69-1.65-6.8-2.13-9.98-1.17a.78.78 0 1 1-.45-1.5c3.64-1.1 8.16-.57 11.24 1.33.37.22.48.71.26 1.08Zm.1-2.84C14.7 8.93 9.4 8.75 6.33 9.68a.94.94 0 1 1-.54-1.8c3.53-1.07 9.38-.86 13.08 1.33a.94.94 0 0 1-.96 1.62Z"/></svg>
+        </div>
+      </div>
+      <div class="info">
+        <button class="title ellipsis" id="title" title="Open Spotify">Nothing playing</button>
+        <div class="artist ellipsis muted" id="artist">Start something in Spotify</div>
+        <div class="controls">
+          <button class="icon-btn" id="prev" title="Previous">
+            <svg viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9.5 12z"/></svg>
+          </button>
+          <button class="icon-btn play" id="playpause" title="Play / pause">
+            <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="icon-pause hidden" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+          </button>
+          <button class="icon-btn" id="next" title="Next">
+            <svg viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l10.5-7z"/></svg>
+          </button>
+        </div>
+        <div class="progress">
+          <span class="time" id="elapsed">0:00</span>
+          <div class="track"><div class="fill" id="fill"></div></div>
+          <span class="time" id="duration">0:00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../common.js"></script>
+  <script src="spotify.js"></script>
+</body>
+</html>

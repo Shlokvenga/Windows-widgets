@@ -1,0 +1,163 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #5865f2;
+}
+
+.logo svg {
+  width: 22px;
+  height: 22px;
+  fill: #fff;
+}
+
+.head-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.server {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.online {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #80848e;
+}
+
+.online-dot,
+.dot.online {
+  background: #23a55a;
+}
+
+.dot.idle {
+  background: #f0b232;
+}
+
+.dot.dnd {
+  background: #f23f43;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  -webkit-app-region: no-drag;
+}
+
+.body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+.message {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.voice-channel {
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(88, 101, 242, 0.18);
+}
+
+.voice-channel .name {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.members {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.member {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #5865f2;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.avatar img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.avatar .dot {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 11px;
+  height: 11px;
+  border: 2px solid rgb(24, 24, 30);
+}
+
+.member-text {
+  min-width: 0;
+}
+
+.member-name {
+  font-weight: 500;
+}
+
+.member-game {
+  font-size: 11px;
+}
+
+.foot {
+  display: flex;
+  gap: 8px;
+}
