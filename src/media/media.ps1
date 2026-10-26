@@ -43,21 +43,43 @@ function Get-TargetSession {
   return $null
 }
 
+function Write-Log([string]$message) {
+  [Console]::Error.WriteLine("$([DateTime]::Now.ToString('HH:mm:ss')) $message")
+  [Console]::Error.Flush()
+}
+
+# Two ways to copy the thumbnail into a byte array; the first that works is used.
+function Read-ThumbnailBytes($stream, [uint32]$size) {
+  try {
+    $reader = [Windows.Storage.Streams.DataReader]::new($stream.GetInputStreamAt(0))
+    Await ($reader.LoadAsync($size)) ([uint32]) | Out-Null
+    $bytes = New-Object byte[] $size
+    $reader.ReadBytes($bytes)
+    $reader.Dispose()
+    return , $bytes
+  } catch {
+    Write-Log "art: DataReader failed: $($_.Exception.Message)"
+  }
+  $netStream = [System.IO.WindowsRuntimeStreamExtensions]::AsStream($stream.CloneStream())
+  $memory = New-Object System.IO.MemoryStream
+  $netStream.CopyTo($memory)
+  $netStream.Dispose()
+  return , $memory.ToArray()
+}
+
 function Get-ArtDataUri($thumbnail) {
   if ($null -eq $thumbnail) { return $null }
   try {
     $stream = Await ($thumbnail.OpenReadAsync()) ([Windows.Storage.Streams.IRandomAccessStreamWithContentType])
     $size = [uint32]$stream.Size
     if ($size -eq 0) { return $null }
-    $reader = [Windows.Storage.Streams.DataReader]::new($stream.GetInputStreamAt(0))
-    Await ($reader.LoadAsync($size)) ([uint32]) | Out-Null
-    $bytes = New-Object byte[] $size
-    $reader.ReadBytes($bytes)
     $type = if ($stream.ContentType) { $stream.ContentType } else { 'image/jpeg' }
-    $reader.Dispose()
+    $bytes = Read-ThumbnailBytes $stream $size
     $stream.Dispose()
+    if ($null -eq $bytes -or $bytes.Length -eq 0) { return $null }
     return "data:$type;base64," + [Convert]::ToBase64String($bytes)
   } catch {
+    Write-Log "art: failed to read thumbnail: $($_.Exception.Message)"
     return $null
   }
 }
@@ -65,6 +87,9 @@ function Get-ArtDataUri($thumbnail) {
 $lastTrackKey = $null
 $lastArt = $null
 $lastJson = $null
+# Spotify publishes the new title before the new cover (and briefly keeps the old
+# cover), so keep re-reading the art for a while after each track change.
+$artPollsLeft = 0
 
 function Send-State([bool]$force) {
   $session = Get-TargetSession
@@ -81,7 +106,20 @@ function Send-State([bool]$force) {
     $artChanged = $trackKey -ne $script:lastTrackKey
     if ($artChanged) {
       $script:lastTrackKey = $trackKey
-      $script:lastArt = Get-ArtDataUri $props.Thumbnail
+      $script:lastArt = $null
+      $script:artPollsLeft = 30
+    } elseif ($force -and $null -eq $script:lastArt) {
+      $script:artPollsLeft = [Math]::Max($script:artPollsLeft, 5)
+    }
+    if ($script:artPollsLeft -gt 0) {
+      $script:artPollsLeft--
+      $art = Get-ArtDataUri $props.Thumbnail
+      if ($art -and $art -ne $script:lastArt) {
+        $script:lastArt = $art
+        $artChanged = $true
+        # Got a cover: a few more checks in case it was still the previous track's.
+        $script:artPollsLeft = [Math]::Min($script:artPollsLeft, 3)
+      }
     }
 
     $state = @{
@@ -98,7 +136,7 @@ function Send-State([bool]$force) {
       canNext     = $playback.Controls.IsNextEnabled
       canPrevious = $playback.Controls.IsPreviousEnabled
     }
-    # Album art is large; only send it when the track changes (or on request).
+    # Album art is large; only send it when it changes (or on request).
     if ($artChanged -or $force) { $state.art = $script:lastArt }
   }
 

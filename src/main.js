@@ -24,7 +24,7 @@ let ownConfigMtime = 0;
 let state = { positions: {} };
 let tray = null;
 const windows = new Map();
-const media = new MediaBridge();
+const media = new MediaBridge({ logFile: path.join(userDir, 'media.log') });
 const system = new SystemMonitor();
 
 // ---------- config & state ----------

@@ -78,6 +78,10 @@ function render(next) {
     $('#art').classList.remove('hidden');
     $('#art-placeholder').classList.add('hidden');
     tintFromArt(state.art);
+  } else if ('art' in state) {
+    // New track whose cover hasn't arrived yet: don't keep showing the old one.
+    $('#art').classList.add('hidden');
+    $('#art-placeholder').classList.remove('hidden');
   }
 
   const playing = state.status === 'Playing';

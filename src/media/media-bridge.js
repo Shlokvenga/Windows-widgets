@@ -1,5 +1,6 @@
 const { spawn } = require('child_process');
 const { EventEmitter } = require('events');
+const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 
@@ -11,8 +12,17 @@ const SCRIPT = path.join(__dirname, 'media.ps1').replace('app.asar', 'app.asar.u
  * relays its now-playing updates. Restarts the helper if it crashes.
  */
 class MediaBridge extends EventEmitter {
-  constructor() {
+  constructor({ logFile } = {}) {
     super();
+    this.logFile = logFile;
+    if (logFile) {
+      try {
+        fs.mkdirSync(path.dirname(logFile), { recursive: true });
+        fs.writeFileSync(logFile, '');
+      } catch {
+        this.logFile = null;
+      }
+    }
     this.proc = null;
     this.active = false;
     this.source = 'Spotify';
@@ -68,8 +78,8 @@ class MediaBridge extends EventEmitter {
       this.emit('update', message);
     });
 
-    proc.stderr.on('data', (chunk) => console.error('[media]', chunk.toString().trim()));
-    proc.on('error', (err) => console.error('[media] failed to start:', err.message));
+    proc.stderr.on('data', (chunk) => this.log(chunk.toString()));
+    proc.on('error', (err) => this.log(`failed to start: ${err.message}\n`));
     proc.on('exit', () => {
       if (this.proc !== proc) return;
       this.proc = null;
@@ -78,6 +88,11 @@ class MediaBridge extends EventEmitter {
         this.restartDelay = Math.min(this.restartDelay * 2, 30000);
       }
     });
+  }
+
+  log(text) {
+    console.error('[media]', text.trim());
+    if (this.logFile) fs.appendFile(this.logFile, text, () => {});
   }
 
   send(command) {
